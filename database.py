@@ -66,6 +66,28 @@ def buscar_link(codigo):
     conexao.close()
     return linha
 
+def registrar_clique(link_id):
+    conexao = conectar()
+
+    conexao.execute(
+        "INSERT INTO cliques (link_id) VALUES (?)",
+        (link_id,),
+    )
+
+    conexao.commit()
+    conexao.close()
+
+def contar_cliques(link_id):
+    conexao = conectar()
+
+    linha = conexao.execute(
+        "SELECT COUNT(*) AS total FROM cliques WHERE link_id = ?",
+        (link_id,),
+    ).fetchone()
+
+    conexao.close()
+    return linha["total"]
+
 # Este bloco só roda quando executamos "python database.py" diretamente
 if __name__ == "__main__":
     criar_tabelas()
