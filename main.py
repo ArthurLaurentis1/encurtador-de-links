@@ -9,11 +9,12 @@ Cria o app FastAPI e define as rotas:
 
 """
 
-import secrets                              # Módulo para gerar números aleatórios seguros
-import string                               # Módulo com listas prontas de letras e números
-from fastapi import FastAPI, HTTPException  # HTTPException permite devolver erros (ex.: 400, 404)
-from pydantic import BaseModel              # BaseModel define o formato dos dados que o navegador envia
-import database                             # Importa o nosso arquivo database.py para usar as funções do banco
+import secrets                                      # Módulo para gerar números aleatórios seguros
+import string                                       # Módulo com listas prontas de letras e números
+from fastapi import FastAPI, HTTPException          # HTTPException permite devolver erros (ex.: 400, 404)
+from pydantic import BaseModel                      # BaseModel define o formato dos dados que o navegador envia
+import database                                     # Importa o nosso arquivo database.py para usar as funções do banco
+from fastapi.responses import RedirectResponse      # Traz a resposta especial que redireciona o navegador para outro endereço
 
 app = FastAPI()
 
@@ -48,9 +49,21 @@ def encurtar(pedido: PedidoEncurtar):
 
     while database.buscar_link(codigo) is not None:
         codigo = gerar_codigo()
-     # Enquanto já existir um link com esse código no banco... gera outro código, até achar um que esteja livre
+    # Enquanto já existir um link com esse código no banco... gera outro código, até achar um que esteja livre
 
     database.salvar_link(codigo, url)
 
-     # Devolve o código e o link curto completo
+    # Devolve o código e o link curto completo
     return {"codigo": codigo, "link_curto": f"http://127.0.0.1:8000/{codigo}"}
+
+@app.get("/{codigo}")
+def redirecionar(codigo: str):
+    link = database.buscar_link(codigo) # Procura no banco o link que tem esse código
+
+    if link is None:
+        raise HTTPException(status_code=404, detail="Link não encontrado")
+
+    database.registrar_clique(link["id"])
+
+    # Manda o navegador para a URL original; 302 significa "redirecionamento temporário"
+    return RedirectResponse(url=link["url_original"], status_code=302)
