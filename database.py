@@ -43,6 +43,29 @@ def criar_tabelas():
     # Fecha a conexão, já que terminamos de usar
     conexao.close()
 
+def salvar_link(codigo, url_original):
+    conexao = conectar()
+
+    conexao.execute(
+        "INSERT INTO links (codigo, url_original) VALUES (?, ?)",
+        (codigo, url_original),
+    )
+
+    conexao.commit()
+    conexao.close()
+
+def buscar_link(codigo):
+    conexao = conectar()
+
+    linha = conexao.execute(
+        "SELECT * FROM links WHERE codigo = ?",
+        # A vírgula é obrigatória porque é uma tupla de um item só
+        (codigo,),
+    ).fetchone() # fetchone() pega só a primeira linha encontrada (ou None se não achar nenhuma)
+
+    conexao.close()
+    return linha
+
 # Este bloco só roda quando executamos "python database.py" diretamente
 if __name__ == "__main__":
     criar_tabelas()
