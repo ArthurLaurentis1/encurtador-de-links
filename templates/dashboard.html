@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel - Encurtador de Links</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <main class="largo">
+        <h1>Painel de Estatísticas</h1>
+        <p><a href="/">Voltar para o encurtador</a></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>URL original</th>
+                    <th>Criado em</th>
+                    <th>Cliques</th>
+                </tr>
+            </thead>
+            <tbody id="tabela-links"></tbody>
+        </table>
+
+        <p id="aviso"></p>
+    </main>
+
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>

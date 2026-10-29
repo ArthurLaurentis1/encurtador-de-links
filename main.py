@@ -78,6 +78,11 @@ def estatisticas():
         "cliques_por_dia": database.cliques_por_dia(),
     }
 
+# Rota da página do painel; devolve o HTML do dashboard
+@app.get("/dashboard", response_class=HTMLResponse)
+def dashboard(request: Request):
+    return templates.TemplateResponse(request=request, name="dashboard.html")
+
 @app.get("/{codigo}")
 def redirecionar(codigo: str):
     link = database.buscar_link(codigo) # Procura no banco o link que tem esse código

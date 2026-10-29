@@ -19,3 +19,25 @@ input {
 button { 
     padding: 10px 16px; 
 }
+
+main.largo { 
+    max-width: 900px; 
+}
+
+table { width: 100%; 
+    border-collapse: collapse; 
+    background: white; 
+}
+
+th, td { 
+    padding: 10px; 
+    border-bottom: 1px solid #ddd; 
+    text-align: left; 
+}
+
+td.url { 
+    max-width: 300px; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+}
