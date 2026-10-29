@@ -9,14 +9,23 @@ Cria o app FastAPI e define as rotas:
 
 """
 
-import secrets                                      # Módulo para gerar números aleatórios seguros
-import string                                       # Módulo com listas prontas de letras e números
-from fastapi import FastAPI, HTTPException          # HTTPException permite devolver erros (ex.: 400, 404)
-from pydantic import BaseModel                      # BaseModel define o formato dos dados que o navegador envia
-import database                                     # Importa o nosso arquivo database.py para usar as funções do banco
-from fastapi.responses import RedirectResponse      # Traz a resposta especial que redireciona o navegador para outro endereço
+import secrets                                                          # Módulo para gerar números aleatórios seguros
+import string                                                           # Módulo com listas prontas de letras e números
+from fastapi import FastAPI, HTTPException, Request                     # FastAPI cria o app; HTTPException devolve erros; Request representa o pedido recebido
+from fastapi.staticfiles import StaticFiles                             # Permite servir arquivos prontos (CSS, JavaScript) de uma pasta
+from fastapi.templating import Jinja2Templates                          # Permite montar páginas HTML a partir de templates (usa o Jinja2)
+from fastapi.responses import HTMLResponse, RedirectResponse            # HTMLResponse indica que a resposta é uma página; RedirectResponse redireciona
+from pydantic import BaseModel                                          # BaseModel define o formato dos dados que o navegador envia
+import database                                                         # Importa o nosso arquivo database.py para usar as funções do banco
+
 
 app = FastAPI()
+
+# Diz que tudo que começar com /static/ vem dos arquivos da pasta "static"
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Diz que os templates HTML ficam na pasta "templates"
+templates = Jinja2Templates(directory="templates")
 
 # Garante que as tabelas existem sempre que o servidor iniciar
 database.criar_tabelas()
@@ -31,10 +40,11 @@ def gerar_codigo(tamanho = 6):
     return "".join(secrets.choice(ALFABETO) for i in range(tamanho))
     # Gera e sorteia codigos aleatorios
 
-# Rota da página inicial
-@app.get("/")
-def inicio():
-    return {"mensagem": "Encurtador de links funcionando"}
+# Rota da página inicial, response_class avisa que a resposta é HTML
+@app.get("/", response_class=HTMLResponse)
+def inicio(request: Request):
+    # Lê o arquivo templates/index.html e devolve como página
+    return templates.TemplateResponse(request=request, name="index.html")
 
 # Rota que recebe uma URL e devolve o link curto; usa POST porque envia dados
 @app.post("/encurtar")
