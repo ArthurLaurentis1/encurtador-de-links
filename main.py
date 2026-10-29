@@ -56,6 +56,18 @@ def encurtar(pedido: PedidoEncurtar):
     # Devolve o código e o link curto completo
     return {"codigo": codigo, "link_curto": f"http://127.0.0.1:8000/{codigo}"}
 
+# Rota que devolve os dados do painel em JSON (o dashboard.js vai buscar isso)
+@app.get("/api/estatisticas")
+def estatisticas():
+
+    # Devolve um dicionário com as duas listas; o FastAPI converte para JSON
+    return{
+        # Lista de links com o total de cliques de cada um
+        "links": database.listar_links_com_cliques(),
+        # Lista de dias com o total de cliques de cada dia
+        "cliques_por_dia": database.cliques_por_dia(),
+    }
+
 @app.get("/{codigo}")
 def redirecionar(codigo: str):
     link = database.buscar_link(codigo) # Procura no banco o link que tem esse código

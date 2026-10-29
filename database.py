@@ -88,6 +88,36 @@ def contar_cliques(link_id):
     conexao.close()
     return linha["total"]
 
+def listar_links_com_cliques():
+    conexao = conectar()
+
+    linhas = conexao.execute("""
+        SELECT links.id, links.codigo, links.url_original, links.criado_em,
+            COUNT(cliques.id) AS total_cliques
+        FROM links
+            LEFT JOIN cliques ON cliques.link_id = links.id
+        GROUP BY links.id
+        ORDER BY links.id DESC
+    """).fetchall()
+
+    conexao.close()
+    # Converte cada linha em dicionário comum e devolve a lista deles
+    return [dict(linha) for linha in linhas]
+
+def cliques_por_dia():
+    conexao = conectar()
+
+    linhas = conexao.execute("""
+        SELECT DATE(data_hora, '-3 hours') AS dia,
+            COUNT(*) AS total
+        FROM cliques
+        GROUP BY dia
+        ORDER BY dia
+    """).fetchall()
+
+    conexao.close()
+    return [dict(linha) for linha in linhas]
+
 # Este bloco só roda quando executamos "python database.py" diretamente
 if __name__ == "__main__":
     criar_tabelas()
