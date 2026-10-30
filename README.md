@@ -1,6 +1,6 @@
 # Encurtador de Links
 
-Video Demo: <COLE AQUI A URL DO VÍDEO>
+Video Demo: <[COLE AQUI A URL DO VÍDEO](https://youtu.be/duECwk-uVqE)>
 
 ## Descrição
 
