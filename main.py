@@ -7,6 +7,8 @@ Cria o app FastAPI e define as rotas:
 - redirecionamento (registrando o clique)
 - dados de estatísticas para o gráfico
 
+Partes deste código foram escritas com ajuda do Claude (IA da Anthropic),
+conforme a regra de honestidade acadêmica do CS50. Explicação revisada por mim.
 """
 
 import secrets                                                          # Módulo para gerar números aleatórios seguros

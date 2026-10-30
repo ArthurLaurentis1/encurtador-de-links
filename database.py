@@ -5,6 +5,8 @@ Funções para conectar, criar as tabelas (links e cliques), salvar um link,
 buscar um link pelo código, registrar cliques e consultar estatísticas.
 O SQL fica aqui para manter as rotas do main.py simples.
 
+Partes deste código foram escritas com ajuda do Claude (IA da Anthropic),
+conforme a regra de honestidade acadêmica do CS50. Explicação revisada por mim.
 """
 
 import sqlite3
