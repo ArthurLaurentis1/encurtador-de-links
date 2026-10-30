@@ -1,5 +1,6 @@
 const tabela = document.getElementById("tabela-links");
 const aviso = document.getElementById("aviso");
+const avisoGrafico = document.getElementById("aviso-grafico");
 
 function criarCelula(texto){
     const celula = document.createElement("td");
@@ -37,6 +38,45 @@ function mostrarTabela(links) {
     }
 }
 
+function mostrarGrafico(cliquesPorDia) {
+    if (cliquesPorDia.length === 0) {
+        avisoGrafico.textContent = "Ainda não há cliques para mostrar.";
+        return;
+    }
+
+    // O .map cria uma lista nova aplicando a função a cada item da lista original
+    const rotulos = cliquesPorDia.map(function(item) {
+        // Troca "2026-10-28" por "28/10/2026"
+        return item.dia.split("-").reverse().join("/");
+    });
+
+    const valores = cliquesPorDia.map(function(item){
+        return item.total;
+    });
+
+    const canvas = document.getElementById("grafico-cliques");
+
+     // Cria o gráfico; "new Chart" vem da biblioteca Chart.js
+    new Chart(canvas, {
+        type: "bar",
+        data: {
+            labels: rotulos,
+            datasets: [{
+                label: "Cliques por dia",
+                data: valores,
+            }],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { precision: 0 },
+                },
+            },
+        },
+    });
+}
+
 async function carregarDados() {
     try {
         // Faz um pedido GET (padrão do fetch) para a rota de estatísticas
@@ -52,6 +92,7 @@ async function carregarDados() {
 
         // Desenha a tabela com a lista "links" que veio do Python
         mostrarTabela(dados.links);
+        mostrarGrafico(dados.cliques_por_dia);
     } catch (erro) {
         aviso.textContent = "Não foi possível conectar ao servidor.";
     }

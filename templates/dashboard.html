@@ -24,8 +24,16 @@
         </table>
 
         <p id="aviso"></p>
+
+        <h2>Cliques por dia</h2>
+
+        <div class="caixa-grafico">
+            <canvas id="grafico-cliques"></canvas>
+        </div>
     </main>
 
+        <!-- Biblioteca Chart.js, carregada da internet; precisa vir ANTES do nosso dashboard.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="/static/dashboard.js"></script>
 </body>
 </html>

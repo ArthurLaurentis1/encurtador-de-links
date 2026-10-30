@@ -41,3 +41,9 @@ td.url {
     text-overflow: ellipsis; 
     white-space: nowrap; 
 }
+
+.caixa-grafico { 
+    background: white; 
+    padding: 16px; 
+    margin-top: 10px; 
+}
