@@ -40,15 +40,17 @@ def gerar_codigo(tamanho = 6):
     return "".join(secrets.choice(ALFABETO) for i in range(tamanho))
     # Gera e sorteia codigos aleatorios
 
+
 # Rota da página inicial, response_class avisa que a resposta é HTML
 @app.get("/", response_class=HTMLResponse)
 def inicio(request: Request):
     # Lê o arquivo templates/index.html e devolve como página
     return templates.TemplateResponse(request=request, name="index.html")
 
+
 # Rota que recebe uma URL e devolve o link curto; usa POST porque envia dados
 @app.post("/encurtar")
-def encurtar(pedido: PedidoEncurtar):
+def encurtar(pedido: PedidoEncurtar, request: Request):
     url = pedido.url.strip() # Pega a url enviada e remove espaços
 
     # Se a url não começar com http:// ou https://, não é um endereço válido
@@ -64,7 +66,9 @@ def encurtar(pedido: PedidoEncurtar):
     database.salvar_link(codigo, url)
 
     # Devolve o código e o link curto completo
-    return {"codigo": codigo, "link_curto": f"http://127.0.0.1:8000/{codigo}"}
+    base = str(request.base_url)
+    return {"codigo": codigo, "link_curto": f"{base}{codigo}"}
+
 
 # Rota que devolve os dados do painel em JSON (o dashboard.js vai buscar isso)
 @app.get("/api/estatisticas")
@@ -78,10 +82,12 @@ def estatisticas():
         "cliques_por_dia": database.cliques_por_dia(),
     }
 
+
 # Rota da página do painel; devolve o HTML do dashboard
 @app.get("/dashboard", response_class=HTMLResponse)
 def dashboard(request: Request):
     return templates.TemplateResponse(request=request, name="dashboard.html")
+
 
 @app.get("/{codigo}")
 def redirecionar(codigo: str):
