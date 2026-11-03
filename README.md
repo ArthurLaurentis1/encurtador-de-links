@@ -64,3 +64,8 @@ Depois abra `http://127.0.0.1:8000`. O painel fica em `/dashboard`. O banco (`en
 
 Seguindo a regra de honestidade acadêmica do CS50, informo que usei o Claude (Anthropic) como apoio. Ele ajudou a planejar a estrutura, escreveu trechos de código com explicação linha por linha e me ajudou a depurar erros. Todos os arquivos têm um comentário no topo registrando isso.
 Eu testei cada etapa, fiz perguntas sobre cada trecho até entender e corrigi problemas pelo caminho.
+
+---
+
+Desenvolvido por Arthur Laurentis
+[LinkedIn](https://www.linkedin.com/in/arthur-laurentis-1b1b913b9/) • [GitHub](https://github.com/ArthurLaurentis1)
