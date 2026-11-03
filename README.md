@@ -60,11 +60,6 @@ Depois abra `http://127.0.0.1:8000`. O painel fica em `/dashboard`. O banco (`en
 - O gráfico usa o Chart.js por CDN, então precisa de internet.
 - Ideias para o futuro: links que expiram, apelidos personalizados e separar cliques repetidos da mesma pessoa.
 
-## Uso de IA
-
-Seguindo a regra de honestidade acadêmica do CS50, informo que usei o Claude (Anthropic) como apoio. Ele ajudou a planejar a estrutura, escreveu trechos de código com explicação linha por linha e me ajudou a depurar erros. Todos os arquivos têm um comentário no topo registrando isso.
-Eu testei cada etapa, fiz perguntas sobre cada trecho até entender e corrigi problemas pelo caminho.
-
 ---
 
 Desenvolvido por Arthur Laurentis
